@@ -40,8 +40,8 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-
 /* USER CODE BEGIN PV */
+int matriz [4][4] ={{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
 /* USER CODE END PV */
 
@@ -49,11 +49,11 @@
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
-void piscaLed();
+void fimdeJogo();
 void acionabuzzer();
 void desligabuzzer();
 void testeBotao();
-
+void Sorteador();
 
 /* USER CODE END PFP */
 
@@ -96,13 +96,18 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  //fimdeJogo();
+  jogadaCerta();
   while (1)
   {
-//piscaLed();
+
 //acionabuzzer();
 //desligabuzzer();
-testeBotao();
+//testeBotao();
+ //Sorteador();
 
+
+//jogadaCerta();
 
 
     /* USER CODE END WHILE */
@@ -196,8 +201,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void piscaLed()
+void fimdeJogo()
 {
+
+while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1) == 1 && HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == 1 && HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == 1 &&  HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 1){
+
 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 1);
 HAL_Delay(200);
 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 0);
@@ -238,13 +246,18 @@ HAL_Delay(200);
 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, 0);
 HAL_Delay(200);
 
+acionabuzzer();
+desligabuzzer();
 
+
+
+}
 }
 
 void acionabuzzer()
 {
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 0);
-		HAL_Delay(1000);
+		HAL_Delay(3000);
 
 }
 
@@ -321,6 +334,99 @@ void testeBotao()
 
 
 }
+void Sorteador()
+{
+	int linha;
+	int coluna;
+
+
+	for(int i = 0; i <= 3; i++)
+	{
+		linha = rand()%4;
+		coluna = rand()%4;
+
+
+		if(matriz [linha][coluna] == 0)
+		{
+			matriz [linha][coluna] = 1;
+		}
+
+		else
+		{
+			i--;
+
+		}
+	}
+
+	    matriz[0][0] = 0;
+	    matriz[0][1] = 0;
+	    matriz[0][2] = 0;
+	    matriz[0][3] = 0;
+	    matriz[1][0] = 0;
+	    matriz[1][1] = 0;
+	    matriz[1][2] = 0;
+	    matriz[1][3] = 0;
+	    matriz[2][0] = 0;
+	    matriz[2][1] = 0;
+	    matriz[2][2] = 0;
+	    matriz[2][3] = 0;
+	    matriz[3][0] = 0;
+	    matriz[3][1] = 0;
+	    matriz[3][2] = 0;
+	    matriz[3][3] = 0;
+
+}
+
+void jogadaCerta()
+{
+
+	while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1) == 1 && HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == 1 && HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == 1 &&  HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 1){
+
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 1);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 0);
+	HAL_Delay(100);
+
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, 1);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, 0);
+	HAL_Delay(100);
+
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, 1);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_15, 0);
+	HAL_Delay(100);
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, 1);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, 0);
+	HAL_Delay(100);
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, 1);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, 0);
+	HAL_Delay(100);
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, 1);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, 0);
+	HAL_Delay(100);
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, 1);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, 0);
+	HAL_Delay(100);
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, 1);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, 0);
+	HAL_Delay(100);
+}
+}
+
+
+
+
 
 
 
