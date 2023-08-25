@@ -46,6 +46,7 @@ int matriz [4][4] ={{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 char vetor1[3];
 
 
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -108,12 +109,16 @@ int main(void)
   while (1)
   {
 
-//acionabuzzer();
-//desligabuzzer();
-//testeBotao();
- //Sorteador();
-teclado(&vetor1[0]);
-leteclado();
+
+
+
+Sorteador();
+
+for(int v = 0; v <= 11; v++)
+{
+  teclado(&vetor1[0]);
+  verificador();
+}
 
 
 
@@ -234,8 +239,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void fimdeJogo()
 {
+	acionabuzzer();
+	desligabuzzer();
 
-while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1) == 1 && HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == 1 && HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == 1 &&  HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 1){
 
 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 1);
 HAL_Delay(200);
@@ -277,18 +283,17 @@ HAL_Delay(200);
 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, 0);
 HAL_Delay(200);
 
-acionabuzzer();
-desligabuzzer();
+
 
 
 
 }
-}
+
 
 void acionabuzzer()
 {
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 0);
-		HAL_Delay(3000);
+		HAL_Delay(1000);
 
 }
 
@@ -347,29 +352,39 @@ void testeBotao()
 	}
 
 
-
-
-
-
-
-
-
 }
 void Sorteador()
 {
-	int linha;
-	int coluna;
 
+	        matriz[0][0] = 0;
+		    matriz[0][1] = 0;
+		    matriz[0][2] = 0;
+		    matriz[0][3] = 0;
+		    matriz[1][0] = 0;
+		    matriz[1][1] = 0;
+		    matriz[1][2] = 0;
+		    matriz[1][3] = 0;
+		    matriz[2][0] = 0;
+		    matriz[2][1] = 0;
+		    matriz[2][2] = 0;
+		    matriz[2][3] = 0;
+		    matriz[3][0] = 0;
+		    matriz[3][1] = 0;
+		    matriz[3][2] = 0;
+		    matriz[3][3] = 0;
+
+	int l;
+	int c;
 
 	for(int i = 0; i <= 3; i++)
 	{
-		linha = rand()%4;
-		coluna = rand()%4;
+		l = rand()%4;
+		c = rand()%4;
 
 
-		if(matriz [linha][coluna] == 0)
+		if(matriz [l][c] == 0)
 		{
-			matriz [linha][coluna] = 1;
+			matriz [l][c] = 1;
 		}
 
 		else
@@ -379,24 +394,9 @@ void Sorteador()
 		}
 	}
 
-	    matriz[0][0] = 0;
-	    matriz[0][1] = 0;
-	    matriz[0][2] = 0;
-	    matriz[0][3] = 0;
-	    matriz[1][0] = 0;
-	    matriz[1][1] = 0;
-	    matriz[1][2] = 0;
-	    matriz[1][3] = 0;
-	    matriz[2][0] = 0;
-	    matriz[2][1] = 0;
-	    matriz[2][2] = 0;
-	    matriz[2][3] = 0;
-	    matriz[3][0] = 0;
-	    matriz[3][1] = 0;
-	    matriz[3][2] = 0;
-	    matriz[3][3] = 0;
 
 }
+
 
 void jogadaCerta()
 {
@@ -451,25 +451,27 @@ char colunas(void)
     if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1) == 0)
     {
     	return 'A';
+
     }
 
     else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == 0)
     {
-    	return 'D';
+    	return 'B';
+
     }
     else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == 0)
     {
-    	return 'B';
+    	return 'C';
+
     }
     else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 0)
     {
-    	return 'C';
-    }
+    	return 'D';
 
+    }
     else{
     	return 0;
     }
-
 
 }
 
@@ -478,27 +480,32 @@ char linhas (void)
 	if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12) == 0)
 	{
 		return '1';
+
+
 	}
 
 	else if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_15) == 0)
 
 	{
 		return '2';
+
 	}
 
 	else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_3) == 0)
 	{
 		return '3';
+
 	}
 
 	else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == 0)
 	{
 		return '4';
-	}
 
-	else{
-		return 0;
 	}
+	else{
+	    	return 0;
+	    }
+
 
 }
 
@@ -530,24 +537,90 @@ void teclado(char *p1)
 
 
 
-		if(x==0 && y==0)
+		if(x!=0 && y!=0)
 		{
 			continua=0;
 		}
+		else if (x==0 && y==0)
+		{
+			continua=0;
+		}
+
+
 	}
 
 }
 
-void leteclado()
+
+
+void verificador()
 {
-	  teclado(&vetor1[0]);
-	  if(!(vetor1[0]>='A' && vetor1[0]<='C' && vetor1[1]>='1' && vetor1[1]<='4'))
-	  {
-		  vetor1[0]='X';
-		  vetor1[1]='X';
-	  }
+	int linha;
+	int coluna;
+
+	if(vetor1[0]=='A')
+	{
+	  linha = 0;
+	}
+	else if(vetor1[0]=='D')
+	{
+	  linha = 1;
+	}
+	else if(vetor1[0]=='B')
+	{
+	  linha = 2;
+	}
+	else if(vetor1[0]=='C')
+	{
+	  linha = 3;
+	}
+
+	else
+	{
+	   linha = 'X';
+	}
+
+
+
+
+	if(vetor1[1]=='1')
+	{
+	   coluna = 0;
+	}
+	else if(vetor1[1]=='2')
+	{
+	   coluna = 1;
+	}
+	else if(vetor1[1]=='3')
+	{
+	   coluna = 2;
+	}
+	else if(vetor1[1]=='4')
+	{
+	   coluna = 3;
+	}
+
+	else
+	{
+		coluna = 'X';
+		fimdeJogo();
+	}
+
+
+
+
+
+	if(matriz[linha][coluna] == 1)
+	{
+	fimdeJogo();
+
+			}
 
 }
+
+
+
+
 
 
 
